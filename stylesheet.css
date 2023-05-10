@@ -1,0 +1,32 @@
+body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
+.w3-bar-block .w3-bar-item {padding:20px}
+
+
+.memory-game {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.memory-card {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  perspective: 1000px;
+}
+
+.memory-card img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.memory-card .back-face {
+  transform: rotateY(180deg);
+}
+
+/* ... styling for matched cards ... */
