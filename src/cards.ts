@@ -1,7 +1,7 @@
 export default {
 
     
-    dir: '/img',
+    dir: './img/cards',
 
     
     amount: 16,
