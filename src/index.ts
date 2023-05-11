@@ -1,21 +1,20 @@
-import { elements } from "../node_modules/chart.js/dist/index";
 
 class Memory {
 
-  private node: Element;
-  private cards: string[];
+  private node: HTMLElement;
+  private cards: any;
   private clickedCards: any;
-  private timeout: number | null;
-  private cardMoves: number;
+  private timeout: any | null = null;
+  private cardMoves: any;
   private cardsCollected: number;
-  private cardsMatch: number;
-  private board?: Element;
-  private modal?: Element;
-  private playBtn?: Element;
+  private cardsMatch: any;
+  private board: HTMLElement;
+  private modal?: HTMLElement;
+  private playBtn?: HTMLElement;
   private memoryMoves?: Element;
   private memoryMatches?: Element;
   cardCollectionBox!: DOMRect;
-  matchCards: any;
+
 
   constructor(opts: {selector: any, cards: string[]}) {
     this.node = opts.selector;
@@ -66,16 +65,40 @@ class Memory {
 
   }
   reset() {
-    throw new Error("Method not implemented.");
+    this.cardMoves = 0;
+        this.cardsCollected = 0;
+        this.cardsMatch = 0;
+  }
+  matchCards(a: any, b: any) {
+    return a === b;
   }
   shuffleCards() {
-    throw new Error("Method not implemented.");
+    this.cards.sort(() => Math.random() - 0.5);
   }
   render() {
-    throw new Error("Method not implemented.");
-  }
+    this.board.innerHTML = '';
+        this.cards.forEach((card: { id: any; img: any; }, i: number) => {
+           this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
+        });
+}
+
+renderCard(card: { id: any, img: any }, i: number): any {
+    return `
+        <div class="memory-card-item" data-card="${card.id}">
+            <div class="memory-card-item-inner">
+                <div class="memory-card-item-front"></div>
+                <div class="memory-card-item-back">
+                    <img src="../${card.img}" />
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+
   updateUI() {
-    throw new Error("Method not implemented.");
+    this.memoryMoves!.innerHTML = this.cardMoves;
+    this.memoryMatches!.innerHTML = this.cardsMatch;
   }
   cardClicked(e: MouseEvent) {
     const clickedCard = e.currentTarget as HTMLElement;
@@ -100,9 +123,92 @@ class Memory {
     if (this.matchCards(this.clickedCards[0].getAttribute('data-card'), this.clickedCards[1].getAttribute('data-card'))){
       this.cardsCollected += 2;
       this.cardsMatch++;
-
-   
+    
+      setTimeout(()=> {
+        this.moveSlide('#match');
+      }, 500);
+    
+      setTimeout(()=>{
+        this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) =>{
+          card.classList.add('solved');
+          this.collectCard(card);
+        });
+    
+        this.clickedCards = [];
+        this.checkGameEnd();
+      },1500);
+    }
+    else{
+      setTimeout(()=>{
+        this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) => {
+          card.classList.add('visible');
+      });
+      this.moveSlide('#noMatch');
+      }, 300);
+    
+      if (this.timeout !== null) {
+        clearTimeout(this.timeout);
+      }
+    
+      this.timeout = setTimeout(() => {
+        this.clickedCards.forEach((card: { classList: { remove: (arg0: string) => void; }; }) => {
+            card.classList.remove('visible');
+            card.classList.remove('no-match');
+        });
+        this.clickedCards = [];
+      }, 1000);
+    }
+    this.cardMoves++;
+    this.updateUI();
   }
-  }}
-
   
+
+
+
+    collectCard(card: any) {
+    const cardBox = card.getBoundingClientRect();
+        const cardPosX = window.scrollX + cardBox.left;
+        const cardPosY = window.scrollY + cardBox.top;
+
+        let moveItemA = document.createElement('div');
+        moveItemA.className = 'move-item';
+        moveItemA.style.width = cardBox.width + 'px';
+        moveItemA.style.height = cardBox.height + 'px';
+        moveItemA.style.left = `${cardPosX}px`;
+        moveItemA.style.top = `${cardPosY}px`;
+        moveItemA.appendChild(card.querySelector('img').cloneNode());
+        document.body.appendChild(moveItemA);
+
+        setTimeout(() => {
+            moveItemA.style.left = `${window.scrollX + this.cardCollectionBox.left}px`;
+            moveItemA.style.top = `${window.scrollY + this.cardCollectionBox.top}px`;
+            moveItemA.style.opacity = '0.0';
+            moveItemA.style.scale = '0.5';
+        }, 50);
+    }
+    checkGameEnd(): void {
+    if (this.cards.length === this.cardsCollected) {
+      this.openModal('#modal-finish');
+    }
+    }
+
+    moveSlide(slideId: string) {
+    let moveSlide = this.node.querySelector(slideId);
+    moveSlide!.classList.add('show');
+    setTimeout(() => {
+        moveSlide!.classList.remove('show');
+    }, 1000);
+    }
+
+    openModal(arg0: string) {
+    this.modal!.classList.add('modal-show');
+    }
+    }
+    function closeModal(this: any) {
+    this.modal!.classList.remove('modal-show');
+  }
+
+  closeModal();
+  
+
+
