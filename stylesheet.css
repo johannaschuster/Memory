@@ -1,16 +1,171 @@
-body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
-.w3-bar-block .w3-bar-item {padding:20px}
+* {
+  box-sizing: border-box;
+}
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.page-memory-game {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+  background: transparent url(src/img/18.jpg) no-repeat center center;
+}
+
+.page-title {
+  width: 100%;
+  color: #fff;
+  font-weight: 900;
+  text-shadow: #000 0 1px 1px;
+  text-transform: uppercase;
+}
+.page-footer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+.memory-game {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1em;
+  overflow: hidden;
+  position: relative;
+}
 .memory-board {
   width: 100%;
   margin: 0;
   padding: 0;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(calc(12.5% - 15px), 1fr));
-  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(10.5%, 1fr));
+  grid-gap: 4% 2%;
+}
+/*
+  @media $query.m
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))
+      grid-gap: 20px
+*/
+
+.memory-card-item {
+  width: 100%;
+  height: 100%;
+  /* border: 3px solid #f1f1f1; */
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  background-color: transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.memory-card-item.visible .memory-card-item-inner {
+  transform: rotateY(180deg);
+}
+.memory-card-item.no-match:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 50, 50, 0.5);
+}
+.memory-card-item.solved {
+  opacity: 0.0;
+}
+.memory-card-item.solved .memory-card-item-inner {
+  transform: rotateY(180deg);
 }
 
+.memory-card-item:nth-child(n+1) {
+  transform: rotate(1.2deg);
+}
+.memory-card-item:nth-child(2n+1) {
+  transform: rotate(-1.8deg);
+}
+.memory-card-item:nth-child(3n+1) {
+  transform: rotate(1.4deg);
+}
+.memory-card-item:nth-child(4n+1) {
+  transform: rotate(-1.4deg);
+}
+.memory-card-item:nth-child(5n+1) {
+  transform: rotate(1.8deg);
+}
+.memory-card-item:nth-child(6n+1) {
+  transform: rotate(0.8deg);
+}
+.memory-card-item:nth-child(7n+1) {
+  transform: rotate(-1.2deg);
+}
+
+.memory-card-item-inner {
+  width: 100%;
+  padding-top: 100%;
+  display: block;
+  text-align: center;
+  position: relative;
+  transition: transform 0.25s;
+  transform-style: preserve-3d;
+}
+
+.memory-card-item-front,
+.memory-card-item-back {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.memory-card-item-front {
+  padding: 20px;
+  color: black;
+  cursor: pointer;
+  box-shadow: inset 0 0 8px rgba(0,0,0, 0.25);
+  transition: all 150ms ease-in-out;
+  background: repeating-linear-gradient(
+      -45deg,
+      #222,
+      #222 10px,
+      #333 10px,
+      #333 20px
+  );
+
+}
+
+/*
+.memory-item:hover .memory-item-inner {
+  transform: rotateY(25deg);
+}
+*/
+.memory-card-item:hover .memory-card-item-front {
+  background: repeating-linear-gradient(
+          -45deg,
+          #333,
+          #333 10px,
+          #444 10px,
+          #444 20px
+  );
+}
+.memory-card-item-back {
+  color: white;
+  transform: rotateY(180deg);
+}
+.memory-card-item img {
+  height: 100%;
+}
 
 .memory-ui {
   height: 50px;
@@ -29,4 +184,246 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif}
   display: flex;
   align-items: center;
 }
+#memoryMoves,
+#memoryMatches {
+  margin: 0 5px;
+  font-weight: 500;
+}
+.memory-matches-cards {
+  margin: 0 20px;
+}
+.memory-matches-cards,
+.memory-matches-cards:before {
+  width: 64px;
+  height: 64px;
+  display: block;
+  transform: rotate(-16deg);
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 2px solid #666;
+  background: repeating-linear-gradient(
+      -45deg,
+      #222,
+      #222 5px,
+      #333 5px,
+      #333 10px
+  );
+}
+.memory-matches-cards:before {
+  content: '';
+  transform: rotate(18deg);
+}
 
+
+
+
+
+.memory-slider {
+  width: 300px;
+  height: auto;
+  margin-left: -150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1.0;
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: scale(1.0);
+
+  visibility: hidden;
+  backface-visibility: hidden;
+}
+.memory-slider.no-match {
+  color: red;
+  font-size: 40px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: #fff 0 1px 1px;
+}
+.memory-slider.match {
+  color: green;
+  font-size: 40px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: #fff 0 1px 1px;
+}
+.memory-slider.show {
+  visibility: visible;
+  transition: all 1000ms;
+}
+.memory-slider.show.slideUp {
+  top: 50%;
+  opacity: 0.0;
+}
+
+
+
+.move-item {
+  width: 64px;
+  height: 64px;
+  display: block;
+  position: fixed;
+  transition: all 350ms ease-out;
+}
+.move-item img {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+.playBtn {
+  width: auto;
+  min-width: 240px;
+  margin: 10px auto;
+  padding: 12px;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  border: 0;
+  border-radius: 4px;
+  background-color: #00a175;
+  transition: all 80ms ease-in-out;
+}
+.playBtn:hover {
+  background-color: #00c48e;
+  text-decoration: none;
+}
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  position: fixed;
+  opacity: 0;
+  background: rgba(0,0,0,0.8);
+  transition: all 0.3s;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 640px;
+  max-width: 90%;
+  height: auto;
+  z-index: 200000;
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateX(-50%) translateY(-50%);
+}
+.modal-stage {
+  margin: 0 auto;
+  color: #4a4a4a;
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+}
+.modal-body {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+.modal-close-button {
+  margin: 0;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  font-size: 32px;
+  line-height: 40px;
+  cursor: pointer;
+  z-index: 2;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  background-color: transparent;
+  appearance: none;
+}
+.modal-close-button:hover {
+  color: white;
+  background-color: #f43030;
+}
+.modal-show {
+  visibility: visible;
+}
+.modal-show ~ .modal-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/*
+* MODAL EFFECTS
+*/
+
+/* fadeIn effect */
+.modal-fadeIn .modal-stage  {
+  opacity: 0.0;
+  transform: scale(0.7);
+  transition: all 300ms;
+}
+.modal-show.modal-fadeIn .modal-stage {
+  transform: scale(1.0);
+  opacity: 1.0;
+}
+
+/* spin effect */
+.modal-spin .modal-stage  {
+  opacity: 0.0;
+  transform: scale(0.2);
+  transition: all 300ms;
+  animation-name: spinOff;
+  animation-duration: 500ms;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+.modal-show.modal-spin .modal-stage {
+  opacity: 1.0;
+  transform: rotate(0deg);
+  animation-name: spin;
+}
+@keyframes spin {
+  from {
+      opacity: 0.0;
+      transform: rotate(0deg) scale(0.2);
+  }
+  to {
+      opacity: 1.0;
+      transform: rotate(720deg) scale(1.0);
+  }
+}
+@keyframes spinOff {
+  from {
+      opacity: 1.0;
+      transform: rotate(720deg) scale(1.0);
+
+  }
+  to {
+      opacity: 0.0;
+      transform: rotate(0deg) scale(0.2);
+  }
+}
+
+/* bottomUp effect */
+.modal-bottomUp .modal-stage  {
+  opacity: 0.0;
+  top: 110%;
+  transform: scale(1.0);
+  transition: all 300ms;
+}
+.modal-show.modal-bottomUp .modal-stage {
+  opacity: 1.0;
+  top: 50%;
+}

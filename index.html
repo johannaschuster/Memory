@@ -1,32 +1,41 @@
-
 <!DOCTYPE html>
 <html>
-<head>
-<title>Memory</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
-<link rel="stylesheet" href="stylesheet.css">
-<script defer src="./build/bundle.js"></script>
-</head>
-<body>
-  <div class="memory-game" id="memoryGame">
-    <div class="memory-board"></div>
-    <div class="memory-ui">
-        <span class="memory-moves">Züge: <span id="memoryMoves">0</span></span>
-        <span class="memory-matches">Paare: <span id="memoryMatches">0</span>
-            <span class="memory-matches-cards" id="memoryMatchesCards"></span>
-        </span>
+  <head>
+    <title>Memory</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta name="robots" content="index, follow, noarchive, noodp, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="description" content="memory-game" />
+    <link rel="stylesheet" href="stylesheet.css">
+  </head>
+    <body>
+      <div class="page page-memory-game">
+        <div class="memory-game" id="memoryGame">
+            <div class="memory-board"></div>
+            <div class="memory-slider no-match slideUp" id="noMatch">No Match</div>
+            <div class="memory-slider match slideUp" id="match">Match!</div>
+            <div class="memory-ui">
+                <span class="memory-moves">Moves: <span id="memoryMoves">0</span></span>
+                <span class="memory-matches">Matches: <span id="memoryMatches">0</span> <span class="memory-matches-cards" id="memoryMatchesCards"></span></span>
+            </div>
+            <div class="modal modal-fadeIn" id="modal-finish">
+                <div class="modal-stage">
+                    <div class="modal-body">
+                        <h1>All Matches found!</h1>
+                        <p><strong>Well Done!</strong> You've found all matches.</p>
+                        <button class="playBtn">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module">
+            import MemoryCards from './src/cards';
+            let memoryGame = new MemoryGame({
+                selector: document.getElementById('memoryGame'),
+                cards: MemoryCards.getCards()
+            });
+        </script>
     </div>
-</div>
-<div class="memory-card-item" data-card="1">
-  <div class="memory-card-item-inner">
-      <div class="memory-card-item-front"></div>
-      <div class="memory-card-item-back">
-          <img src="img/01.jpg" />
-      </div>
-  </div>
-</div>
-</body>
+    <script src="./build/bundle.js"></script>
+  </body>
 </html>
