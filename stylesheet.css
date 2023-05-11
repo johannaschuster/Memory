@@ -216,7 +216,7 @@ body {
   backface-visibility: hidden;
 }
 .memory-slider.no-match {
-  color: red;
+  color: rgb(9, 245, 52);
   font-size: 40px;
   font-weight: 600;
   text-transform: uppercase;

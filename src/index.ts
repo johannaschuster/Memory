@@ -121,7 +121,7 @@ class Memory {
   }
 
   
-  matchCards(a: any, b: any) {
+  matchCards(a: object, b: object) {
     return a === b;
   }
 
@@ -166,7 +166,7 @@ class Memory {
             <div class="memory-card-item-inner">
                 <div class="memory-card-item-front"></div>
                 <div class="memory-card-item-back">
-                    <img src="src/img/cards/${i<10?'0':''}${i}.jpg" />
+                 <img src="../${card.img}" />
                 </div>
             </div>
         </div>
@@ -197,7 +197,6 @@ class Memory {
   closeModal(this: any) {
     this.modal.classList.remove('modal-show');
     }   
-  
 } 
 
 document.addEventListener("DOMContentLoaded", () => {
