@@ -1,3 +1,4 @@
+import MemoryCards from './cards';
 
 
 class Memory {
@@ -33,6 +34,11 @@ class Memory {
     this.playBtn = this.node.querySelector('.playBtn')!;
     this.memoryMoves = this.node.querySelector('#memoryMoves')!;
     this.memoryMatches = this.node.querySelector('#memoryMatches')!;
+    
+    let memoryGame = new MemoryGame({
+      selector: document.getElementById('memoryGame'),
+      cards: MemoryCards.getCards()
+    });
 
     this.playBtn.addEventListener('click', (e) => {
       this.closeModal();
