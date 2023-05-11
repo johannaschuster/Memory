@@ -166,7 +166,7 @@ class Memory {
             <div class="memory-card-item-inner">
                 <div class="memory-card-item-front"></div>
                 <div class="memory-card-item-back">
-                    <img src="src/img/cards/${card.img}" />
+                    <img src="src/img/cards/${i<10?'0':''}${i}.jpg" />
                 </div>
             </div>
         </div>
