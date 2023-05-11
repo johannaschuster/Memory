@@ -1,4 +1,5 @@
 
+
 class Memory {
 
   private node: HTMLElement;
@@ -14,9 +15,9 @@ class Memory {
   private memoryMoves?: Element;
   private memoryMatches?: Element;
   cardCollectionBox!: DOMRect;
+  
 
-
-  constructor(opts: {selector: any, cards: string[]}) {
+  constructor(opts: { selector: any, cards: string[] }) {
     this.node = opts.selector;
     this.cards = opts.cards.concat(opts.cards);
 
@@ -33,41 +34,38 @@ class Memory {
     this.memoryMoves = this.node.querySelector('#memoryMoves')!;
     this.memoryMatches = this.node.querySelector('#memoryMatches')!;
 
-    this.playBtn.addEventListener('click', (e)=>{
+    this.playBtn.addEventListener('click', (e) => {
       this.closeModal();
       this.startGame();
     })
     this.startGame();
 
   }
-  closeModal() {
-    throw new Error("Method not implemented.");
-  }
   private startGame(): void {
     this.reset();
     this.shuffleCards();
     this.render();
     this.updateUI();
-  
+
     this.cardCollectionBox = document.getElementById('memoryMatchesCards')!.getBoundingClientRect();
-  
+
     const cardElements = this.node.querySelectorAll<HTMLElement>('.memory-card-item');
     cardElements.forEach(cardElement => {
-    cardElement.addEventListener('click', (e: MouseEvent) => {
-    e.preventDefault();
-    // prevent double click
-    if (!e.detail || e.detail === 1) {
-      this.cardClicked(e);
-    }
-  });
-});
+      cardElement.addEventListener('click', (e: MouseEvent) => {
+        e.preventDefault();
+        // prevent double click
+        if (!e.detail || e.detail === 1) {
+          this.cardClicked(e);
+        }
+      });
+    });
 
 
   }
   reset() {
     this.cardMoves = 0;
-        this.cardsCollected = 0;
-        this.cardsMatch = 0;
+    this.cardsCollected = 0;
+    this.cardsMatch = 0;
   }
   matchCards(a: any, b: any) {
     return a === b;
@@ -77,12 +75,12 @@ class Memory {
   }
   render() {
     this.board.innerHTML = '';
-        this.cards.forEach((card: { id: any; img: any; }, i: number) => {
-           this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
-        });
-}
+    this.cards.forEach((card: { id: any; img: any; }, i: number) => {
+      this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
+    });
+  }
 
-renderCard(card: { id: any, img: any }, i: number): any {
+  renderCard(card: { id: any, img: any }, i: number): any {
     return `
         <div class="memory-card-item" data-card="${card.id}">
             <div class="memory-card-item-inner">
@@ -93,7 +91,7 @@ renderCard(card: { id: any, img: any }, i: number): any {
             </div>
         </div>
     `;
-}
+  }
 
 
   updateUI() {
@@ -102,58 +100,58 @@ renderCard(card: { id: any, img: any }, i: number): any {
   }
   cardClicked(e: MouseEvent) {
     const clickedCard = e.currentTarget as HTMLElement;
-  
+
     if (clickedCard.classList.contains('solved') || clickedCard.classList.contains('visible')) {
       return false;
     }
-  
+
     if (this.clickedCards.length >= 2) {
       return false;
     }
-  
+
     if (this.clickedCards.length <= 1) {
       clickedCard.classList.toggle('visible');
       this.clickedCards.push(clickedCard);
-  
+
       if (this.clickedCards.length < 2) {
         return false;
       }
     }
 
-    if (this.matchCards(this.clickedCards[0].getAttribute('data-card'), this.clickedCards[1].getAttribute('data-card'))){
+    if (this.matchCards(this.clickedCards[0].getAttribute('data-card'), this.clickedCards[1].getAttribute('data-card'))) {
       this.cardsCollected += 2;
       this.cardsMatch++;
-    
-      setTimeout(()=> {
+
+      setTimeout(() => {
         this.moveSlide('#match');
       }, 500);
-    
-      setTimeout(()=>{
-        this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) =>{
+
+      setTimeout(() => {
+        this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) => {
           card.classList.add('solved');
           this.collectCard(card);
         });
-    
+
         this.clickedCards = [];
         this.checkGameEnd();
-      },1500);
+      }, 1500);
     }
-    else{
-      setTimeout(()=>{
+    else {
+      setTimeout(() => {
         this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) => {
           card.classList.add('visible');
-      });
-      this.moveSlide('#noMatch');
+        });
+        this.moveSlide('#noMatch');
       }, 300);
-    
+
       if (this.timeout !== null) {
         clearTimeout(this.timeout);
       }
-    
+
       this.timeout = setTimeout(() => {
         this.clickedCards.forEach((card: { classList: { remove: (arg0: string) => void; }; }) => {
-            card.classList.remove('visible');
-            card.classList.remove('no-match');
+          card.classList.remove('visible');
+          card.classList.remove('no-match');
         });
         this.clickedCards = [];
       }, 1000);
@@ -161,54 +159,50 @@ renderCard(card: { id: any, img: any }, i: number): any {
     this.cardMoves++;
     this.updateUI();
   }
-  
 
-
-
-    collectCard(card: any) {
+  collectCard(card: any) {
     const cardBox = card.getBoundingClientRect();
-        const cardPosX = window.scrollX + cardBox.left;
-        const cardPosY = window.scrollY + cardBox.top;
+    const cardPosX = window.scrollX + cardBox.left;
+    const cardPosY = window.scrollY + cardBox.top;
 
-        let moveItemA = document.createElement('div');
-        moveItemA.className = 'move-item';
-        moveItemA.style.width = cardBox.width + 'px';
-        moveItemA.style.height = cardBox.height + 'px';
-        moveItemA.style.left = `${cardPosX}px`;
-        moveItemA.style.top = `${cardPosY}px`;
-        moveItemA.appendChild(card.querySelector('img').cloneNode());
-        document.body.appendChild(moveItemA);
+    let moveItemA = document.createElement('div');
+    moveItemA.className = 'move-item';
+    moveItemA.style.width = cardBox.width + 'px';
+    moveItemA.style.height = cardBox.height + 'px';
+    moveItemA.style.left = `${cardPosX}px`;
+    moveItemA.style.top = `${cardPosY}px`;
+    moveItemA.appendChild(card.querySelector('img').cloneNode());
+    document.body.appendChild(moveItemA);
 
-        setTimeout(() => {
-            moveItemA.style.left = `${window.scrollX + this.cardCollectionBox.left}px`;
-            moveItemA.style.top = `${window.scrollY + this.cardCollectionBox.top}px`;
-            moveItemA.style.opacity = '0.0';
-            moveItemA.style.scale = '0.5';
-        }, 50);
-    }
-    checkGameEnd(): void {
+    setTimeout(() => {
+      moveItemA.style.left = `${window.scrollX + this.cardCollectionBox.left}px`;
+      moveItemA.style.top = `${window.scrollY + this.cardCollectionBox.top}px`;
+      moveItemA.style.opacity = '0.0';
+      moveItemA.style.scale = '0.5';
+    }, 50);
+  }
+  checkGameEnd(): void {
     if (this.cards.length === this.cardsCollected) {
       this.openModal('#modal-finish');
     }
-    }
+  }
 
-    moveSlide(slideId: string) {
+  moveSlide(slideId: string) {
     let moveSlide = this.node.querySelector(slideId);
     moveSlide!.classList.add('show');
     setTimeout(() => {
-        moveSlide!.classList.remove('show');
+      moveSlide!.classList.remove('show');
     }, 1000);
-    }
-
-    openModal(arg0: string) {
-    this.modal!.classList.add('modal-show');
-    }
-    }
-    function closeModal(this: any) {
-    this.modal!.classList.remove('modal-show');
   }
-
-  closeModal();
   
+  openModal(arg0: string) {
+    this.modal!.classList.add('modal-show');
+  }
+  closeModal(this: any) {
+    this.modal!.classList.remove('modal-show');
+    }   
+  
+} 
+
 
 
