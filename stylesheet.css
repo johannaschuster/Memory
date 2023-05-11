@@ -19,7 +19,8 @@ body {
   align-items: center;
   flex-wrap: wrap;
   text-align: center;
-  background: transparent url(src/img/18.jpg) no-repeat center center;
+  background: url(src/img/19jpg.jpg) ;
+  background-position: cover;
 }
 
 .page-title {
@@ -52,11 +53,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(10.5%, 1fr));
   grid-gap: 4% 2%;
 }
-/*
-  @media $query.m
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))
-      grid-gap: 20px
-*/
+
 
 .memory-card-item {
   width: 100%;

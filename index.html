@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>Memory</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-    <meta name="robots" content="index, follow, noarchive, noodp, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="memory-game" />
     <link rel="stylesheet" href="stylesheet.css">
+    <script src="./build/bundle.js"></script>
   </head>
     <body>
       <div class="page page-memory-game">
@@ -28,14 +28,6 @@
                 </div>
             </div>
         </div>
-        <script type="module">
-            import MemoryCards from './src/cards.ts';
-            let memoryGame = new MemoryGame({
-                selector: document.getElementById('memoryGame'),
-                cards: MemoryCards.getCards()
-            });
-        </script>
-    </div>
-    <script src="./build/bundle.js"></script>
+      </div>
   </body>
 </html>
