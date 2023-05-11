@@ -156,18 +156,17 @@ class Memory {
   render() {
     this.board.innerHTML = '';
     this.cards.forEach((card: { id: number; img: object; }, i: number) => {
-      this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
+      this.board.innerHTML += this.renderCard(card, i);
     });
   }
 
   renderCard(card: { id: number; img: object; }, i: number): string {
-    
     return `
         <div class="memory-card-item" data-card="${card.id}">
             <div class="memory-card-item-inner">
                 <div class="memory-card-item-front"></div>
                 <div class="memory-card-item-back">
-                    <img src="src/img/cards/${i<10?'0':''}${i}.jpg" />
+                    <img src="src/img/cards/${card.img}" />
                 </div>
             </div>
         </div>
