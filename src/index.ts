@@ -1,3 +1,4 @@
+
 import MemoryCards from './cards';
 
 class Memory {
@@ -18,22 +19,28 @@ class Memory {
   constructor(opts: { selector: any, cards: any }) {
     this.node = opts.selector;
     this.cards = opts.cards.concat(opts.cards);
+
     this.clickedCards = [];
     this.timeout = null;
+
     this.cardMoves = 0;
+
     this.cardsCollected = 0;
     this.cardsMatch = 0;
+
     this.board = this.node.querySelector('.memory-board');
     this.modal = this.node.querySelector('.modal')!;
     this.playBtn = this.node.querySelector('.playBtn')!;
     this.memoryMoves = this.node.querySelector('#memoryMoves')!;
     this.memoryMatches = this.node.querySelector('#memoryMatches')!;
+    
     this.playBtn.addEventListener('click', (e) => {
       this.closeModal();
       this.startGame();
-    })
+    });
+    this.startGame();
   }
-  private startGame(): void {
+  startGame(): void {
     this.reset();
     this.shuffleCards();
     this.render();
@@ -50,45 +57,10 @@ class Memory {
           this.cardClicked(e);
         }
       });
-    });
-    this.checkGameEnd();
-    
+    }); 
   }
 
-  reset() {
-    this.cardMoves = 0;
-    this.cardsCollected = 0;
-    this.cardsMatch = 0;
-  }
-  matchCards(a: any, b: any) {
-    return a === b;
-  }
-  shuffleCards() {
-    this.cards.sort(() => Math.random() - 0.5);
-  }
-  render() {
-    this.board.innerHTML = '';
-    this.cards.forEach((card: { id: number; img: object; }, i: number) => {
-      this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
-    });
-  }
-  renderCard(card: { id: number, img: object }, i: number): any {
-    return `
-        <div class="memory-card-item" data-card="${card.id}">
-            <div class="memory-card-item-inner">
-                <div class="memory-card-item-front"></div>
-                <div class="memory-card-item-back">
-                    <img src="img/cards/${card.img}" />
-                </div>
-            </div>
-        </div>
-    `;
-  }
 
-  updateUI() {
-    this.memoryMoves!.innerHTML = this.cardMoves;
-    this.memoryMatches!.innerHTML = this.cardsMatch;
-  }
   cardClicked(e: MouseEvent) {
     const clickedCard = e.currentTarget as HTMLElement;
     if (clickedCard.classList.contains('solved') || clickedCard.classList.contains('visible')) {
@@ -107,6 +79,7 @@ class Memory {
     if (this.matchCards(this.clickedCards[0].getAttribute('data-card'), this.clickedCards[1].getAttribute('data-card'))) {
       this.cardsCollected += 2;
       this.cardsMatch++;
+
       setTimeout(() => {
         this.moveSlide('#match');
       }, 500);
@@ -140,10 +113,23 @@ class Memory {
     this.cardMoves++;
     this.updateUI();
   }
+
+  reset() {
+    this.cardMoves = 0;
+    this.cardsCollected = 0;
+    this.cardsMatch = 0;
+  }
+
+  
+  matchCards(a: any, b: any) {
+    return a === b;
+  }
+
   collectCard(card: any) {
     const cardBox = card.getBoundingClientRect();
     const cardPosX = window.scrollX + cardBox.left;
     const cardPosY = window.scrollY + cardBox.top;
+
     let moveItemA = document.createElement('div');
     moveItemA.className = 'move-item';
     moveItemA.style.width = cardBox.width + 'px';
@@ -152,6 +138,7 @@ class Memory {
     moveItemA.style.top = `${cardPosY}px`;
     moveItemA.appendChild(card.querySelector('img').cloneNode());
     document.body.appendChild(moveItemA);
+
     setTimeout(() => {
       moveItemA.style.left = `${window.scrollX + this.cardCollectionBox.left}px`;
       moveItemA.style.top = `${window.scrollY + this.cardCollectionBox.top}px`;
@@ -159,6 +146,39 @@ class Memory {
       moveItemA.style.scale = '0.5';
     }, 50);
   }
+
+  
+  shuffleCards() {
+    this.cards.sort(() => Math.random() - 0.5);
+  }
+
+   
+  render() {
+    this.board.innerHTML = '';
+    this.cards.forEach((card: { id: number; img: object; }, i: number) => {
+      this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
+    });
+  }
+
+  renderCard(card: { id: number; img: object; }, i: number): string {
+    
+    return `
+        <div class="memory-card-item" data-card="${card.id}">
+            <div class="memory-card-item-inner">
+                <div class="memory-card-item-front"></div>
+                <div class="memory-card-item-back">
+                    <img src="src/img/cards/${i<10?'0':''}${i}.jpg" />
+                </div>
+            </div>
+        </div>
+    `;
+  }
+
+  updateUI() {
+    this.memoryMoves.innerHTML = this.cardMoves;
+    this.memoryMatches.innerHTML = this.cardsMatch;
+  }
+
   checkGameEnd(): void {
     if (this.cards.length === this.cardsCollected) {
       this.openModal('#modal-finish');
@@ -173,10 +193,10 @@ class Memory {
   }
   
   openModal(arg0: string) {
-    this.modal!.classList.add('modal-show');
+    this.modal.classList.add('modal-show');
   }
   closeModal(this: any) {
-    this.modal!.classList.remove('modal-show');
+    this.modal.classList.remove('modal-show');
     }   
   
 } 
