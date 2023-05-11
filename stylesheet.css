@@ -20,7 +20,7 @@ body {
   flex-wrap: wrap;
   text-align: center;
   background: url(src/img/19jpg.jpg) ;
-  background-position: cover;
+  background-size: 100% 100%;
 }
 
 .page-title {

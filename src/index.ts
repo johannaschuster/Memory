@@ -9,10 +9,10 @@ class Memory {
   private cardsCollected: number;
   private cardsMatch: any;
   private board: any;
-  private modal?: HTMLElement;
-  private playBtn?: HTMLElement;
-  private memoryMoves?: Element;
-  private memoryMatches?: Element;
+  private modal: HTMLElement;
+  private playBtn: HTMLElement;
+  private memoryMoves: Element;
+  private memoryMatches: Element;
   cardCollectionBox!: DOMRect;
   
   constructor(opts: { selector: any, cards: any }) {
@@ -38,7 +38,9 @@ class Memory {
     this.shuffleCards();
     this.render();
     this.updateUI();
+
     this.cardCollectionBox = document.getElementById('memoryMatchesCards')!.getBoundingClientRect();
+    
     const cardElements = this.node.querySelectorAll<HTMLElement>('.memory-card-item');
     cardElements.forEach(cardElement => {
       cardElement.addEventListener('click', (e: MouseEvent) => {
@@ -49,9 +51,10 @@ class Memory {
         }
       });
     });
-    this.startGame();
-
+    this.checkGameEnd();
+    
   }
+
   reset() {
     this.cardMoves = 0;
     this.cardsCollected = 0;
@@ -65,17 +68,17 @@ class Memory {
   }
   render() {
     this.board.innerHTML = '';
-    this.cards.forEach((card: { id: any; img: any; }, i: number) => {
+    this.cards.forEach((card: { id: number; img: object; }, i: number) => {
       this.board.innerHTML += this.renderCard({ id: card.id, img: card.img }, i);
     });
   }
-  renderCard(card: { id: any, img: any }, i: number): any {
+  renderCard(card: { id: number, img: object }, i: number): any {
     return `
         <div class="memory-card-item" data-card="${card.id}">
             <div class="memory-card-item-inner">
                 <div class="memory-card-item-front"></div>
                 <div class="memory-card-item-back">
-                    <img src="../${card.img}" />
+                    <img src="img/cards/${card.img}" />
                 </div>
             </div>
         </div>
