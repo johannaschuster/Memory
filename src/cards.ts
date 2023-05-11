@@ -1,9 +1,7 @@
 export default {
 
-    
-    dir: './img/cards',
+    dir: '/img/cards/',
 
-    
     amount: 16,
 
     getCards() {
