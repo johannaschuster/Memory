@@ -1,4 +1,4 @@
-
+import Modal from "./modal";
 class Memory {
   private node: HTMLElement;
   private cards: any;
@@ -8,7 +8,7 @@ class Memory {
   private cardsCollected: number;
   private cardsMatch: any;
   private board: any;
-  private modal: HTMLElement;
+  private modal: Modal;
   public playBtn: HTMLElement;
   private memoryMoves: Element;
   private memoryMatches: Element;
@@ -27,7 +27,7 @@ class Memory {
     this.cardsMatch = 0;
 
     this.board = this.node.querySelector('.memory-board');
-    this.modal = this.node.querySelector('.modal')!;
+    this.modal = new Modal(this.node);
     this.playBtn = this.node.querySelector('.playBtn')!;
     this.memoryMoves = this.node.querySelector('#memoryMoves')!;
     this.memoryMatches = this.node.querySelector('#memoryMatches')!;
@@ -190,13 +190,10 @@ class Memory {
   }
   
   openModal(arg0: string) {
-    this.modal.classList.add('modal-show');
+    this.modal.openModal();
   }
   closeModal(this: any) {
-    this.modal.classList.remove('modal-show');
+    this.modal.closeModal();
     }   
 } 
-
-
-export default Memory
-  
+export default Memory;

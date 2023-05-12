@@ -7,11 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     cards: MemoryCards.getCards()
   });
 
-  memory.playBtn.addEventListener('click', () => {
-    memory.closeModal();
-    memory.startGame();
-  });
-});
-
+})
 
 
