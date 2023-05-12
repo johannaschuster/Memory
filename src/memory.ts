@@ -80,7 +80,7 @@ class Memory {
 
       setTimeout(() => {
         this.moveSlide('#match');
-      }, 500);
+      }, 300);
       setTimeout(() => {
         this.clickedCards.forEach((card: { classList: { add: (arg0: string) => void; }; }) => {
           card.classList.add('solved');
@@ -88,7 +88,7 @@ class Memory {
         });
         this.clickedCards = [];
         this.checkGameEnd();
-      }, 1500);
+      }, 1000);
     }
     else {
       setTimeout(() => {
